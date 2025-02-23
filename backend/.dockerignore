@@ -1,0 +1,62 @@
+# Binaries and object files
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test files
+*.test
+*_test.go
+testdata/
+coverage.txt
+*.out
+
+# Go specific
+go.work
+go.work.sum
+
+# Build output
+bin/
+dist/
+build/
+tmp/
+
+# Debug files
+debug/
+*.pprof
+*.cpu
+*.mem
+
+# Dependencies
+vendor/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Version control
+.git/
+.gitignore
+
+# Docker files
+Dockerfile*
+docker-compose*
+.docker/
+.dockerignore
+
+# Logs
+*.log
+logs/
