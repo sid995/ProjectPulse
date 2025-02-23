@@ -29,12 +29,12 @@ func SetupRouter() *gin.Engine {
 		})
 	})
 
-	router.NoRoute(func(c *gin.Context) {
-		c.JSON(404, gin.H{"message": "Page not found"})
-	})
-
 	router.GET("/hello", func(c *gin.Context) {
 		c.JSON(200, gin.H{"message": "Hello, World!"})
+	})
+
+	router.NoRoute(func(c *gin.Context) {
+		c.JSON(404, gin.H{"message": "Page not found"})
 	})
 
 	return router
