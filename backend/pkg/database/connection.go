@@ -1,6 +1,7 @@
 package database
 
 import (
+	"backend/internal/models"
 	"fmt"
 	"log"
 	"os"
@@ -83,14 +84,28 @@ func GetDB() *gorm.DB {
 
 // Close closes the database connection
 func Close() error {
-	if DB == nil {
-		return nil
+	if DB != nil {
+		sqlDB, err := DB.DB()
+		if err != nil {
+			return err
+		}
+		return sqlDB.Close()
 	}
+	return nil
+}
 
-	sqlDB, err := DB.DB()
-	if err != nil {
-		return fmt.Errorf("failed to get database instance: %v", err)
+// Migrate runs the database migrations
+func Migrate(db *gorm.DB) error {
+	// Run your migration logic here, for example:
+	if err := db.AutoMigrate(
+		&models.User{},
+		&models.Team{},
+		&models.Project{},
+		&models.Task{},
+		&models.Comment{},
+		&models.Attachment{},
+	); err != nil {
+		return err
 	}
-
-	return sqlDB.Close()
+	return nil
 }
