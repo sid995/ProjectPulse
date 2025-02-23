@@ -10,8 +10,8 @@ type User struct {
 
 	AuthoredTasks   []Task           `gorm:"foreignKey:AuthorUserID;constraint:OnDelete:CASCADE" json:"authoredTasks,omitempty"`
 	AssignedTasks   []Task           `gorm:"foreignKey:AssignedUserID;constraint:OnDelete:SET NULL" json:"assignedTasks,omitempty"`
-	TaskAssignments []TaskAssignment `json:"taskAssignments,omitempty"`
+	TaskAssignments []TaskAssignment `gorm:"foreignKey:UserID;constraint:OnDelete:CASCADE" json:"taskAssignments,omitempty"`
 	Attachments     []Attachment     `gorm:"foreignKey:UploadedByID;constraint:OnDelete:CASCADE" json:"attachments,omitempty"`
-	Comments        []Comment        `json:"comments,omitempty"`
+	Comments        []Comment        `gorm:"foreignKey:UserID;constraint:OnDelete:CASCADE" json:"comments,omitempty"`
 	Team            *Team            `gorm:"foreignKey:TeamID;constraint:OnDelete:SET NULL" json:"team,omitempty"`
 }

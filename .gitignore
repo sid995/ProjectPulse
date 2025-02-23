@@ -145,3 +145,6 @@ coverage.html
 
 # Air - Go live reload
 tmp/
+
+# HTTP calls
+*.http

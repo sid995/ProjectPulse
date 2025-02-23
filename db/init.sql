@@ -12,7 +12,24 @@ BEGIN
     END IF;
 END $$;
 
--- Create tables
+-- Drop existing constraints if they exist
+DO $$ 
+BEGIN
+    -- Drop team constraints
+    IF EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'fk_product_owner') THEN
+        ALTER TABLE teams DROP CONSTRAINT fk_product_owner;
+    END IF;
+    IF EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'fk_project_manager') THEN
+        ALTER TABLE teams DROP CONSTRAINT fk_project_manager;
+    END IF;
+    
+    -- Drop user constraints
+    IF EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'fk_team') THEN
+        ALTER TABLE users DROP CONSTRAINT fk_team;
+    END IF;
+END $$;
+
+-- Create base tables first (no foreign keys)
 CREATE TABLE IF NOT EXISTS teams (
     id SERIAL PRIMARY KEY,
     team_name VARCHAR(255) NOT NULL,
@@ -22,11 +39,14 @@ CREATE TABLE IF NOT EXISTS teams (
 
 CREATE TABLE IF NOT EXISTS users (
     user_id SERIAL PRIMARY KEY,
-    cognito_id VARCHAR(255) UNIQUE NOT NULL,
     username VARCHAR(255) UNIQUE NOT NULL,
     profile_picture_url TEXT,
-    team_id INTEGER REFERENCES teams(id) ON DELETE SET NULL
+    team_id INTEGER NULL
 );
+
+-- Add foreign key constraints in correct order
+ALTER TABLE users
+    ADD CONSTRAINT fk_team FOREIGN KEY (team_id) REFERENCES teams(id) ON DELETE SET NULL;
 
 ALTER TABLE teams
     ADD CONSTRAINT fk_product_owner FOREIGN KEY (product_owner_user_id) REFERENCES users(user_id) ON DELETE SET NULL,
@@ -95,3 +115,5 @@ CREATE INDEX IF NOT EXISTS idx_attachments_uploaded_by_id ON attachments(uploade
 CREATE INDEX IF NOT EXISTS idx_project_teams_team_id ON project_teams(team_id);
 CREATE INDEX IF NOT EXISTS idx_project_teams_project_id ON project_teams(project_id);
 CREATE INDEX IF NOT EXISTS idx_users_team_id ON users(team_id);
+CREATE INDEX IF NOT EXISTS idx_teams_product_owner ON teams(product_owner_user_id);
+CREATE INDEX IF NOT EXISTS idx_teams_project_manager ON teams(project_manager_user_id);
