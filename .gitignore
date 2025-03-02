@@ -1,0 +1,154 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+.yarn/
+vendor/
+
+# Testing
+coverage/
+.nyc_output/
+*.test
+testdata/
+
+# Production
+build/
+dist/
+out/
+.next/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Debug & Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+debug.test
+*.log
+logs/
+*.pprof
+*.cpu
+*.mem
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# IDE - JetBrains
+.idea/
+*.iml
+*.iws
+.idea_modules/
+
+# Environment Variables
+.env
+.env.*
+!.env.example
+*.local
+
+# Misc
+.DS_Store
+*.pem
+Thumbs.db
+
+# Go specific
+*.o
+*.a
+_obj
+_test
+_testmain.go
+*.test
+*.prof
+go.work
+go.work.sum
+
+# Next.js specific
+.vercel
+.env*.local
+*.tsbuildinfo
+next-env.d.ts
+
+# PWA files
+public/sw.js
+public/sw.js.map
+public/workbox-*.js
+public/workbox-*.js.map
+public/worker-*.js
+public/worker-*.js.map
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+postgres-data/
+
+# Docker
+.docker/
+docker-compose.override.yml
+
+# Cache directories
+.cache/
+.eslintcache
+.stylelintcache
+.parcel-cache/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.bak
+*.swp
+*~
+
+# Build artifacts
+bin/
+release/
+*.zip
+*.tar.gz
+
+# Project specific
+uploads/
+media/
+static/
+public/uploads/
+storage/
+backups/
+
+# System Files
+.directory
+.Trash-*
+$RECYCLE.BIN/
+ehthumbs.db
+Desktop.ini
+
+# Storybook
+storybook-static/
+
+# TypeScript
+*.tsbuildinfo
+
+# Cypress
+cypress/videos/
+cypress/screenshots/
+
+# Coverage reports
+coverage.txt
+coverage.html
+*.coverprofile
+
+# Air - Go live reload
+tmp/
+
+# HTTP calls
+*.http
+
+# Additional Files
+.cursorrules
+instructions.txt
