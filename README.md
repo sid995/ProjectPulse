@@ -25,7 +25,7 @@ ProjectPulse is a comprehensive project management platform designed to streamli
 - Docker and Docker Compose
 - Git
 - Node.js 18+ (for local frontend development)
-- Go 1.22+ (for local backend development)
+- Go 1.24 (for local backend development)
 
 ### Quick Start with Docker
 

@@ -1,0 +1,39 @@
+# ProjectPulse API Configuration
+
+# Environment (development, production)
+env: # development or production
+
+# Server configuration
+server:
+  port: 
+  timeout: # in seconds
+
+# Database configuration
+database:
+  driver:
+  host:
+  port:
+  user:
+  password:
+  name:
+  sslmode:
+  max_idle_conns:
+  max_open_conns:
+  conn_max_lifetime:
+
+# Redis configuration
+redis:
+  host:
+  port:
+  password:
+  db:
+
+# JWT configuration
+jwt:
+  secret:
+  expiration: # Token expiration time
+
+# Logging configuration
+logging:
+  level: # debug, info, warn, error
+  format: # json, console 

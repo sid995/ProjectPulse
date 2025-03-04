@@ -1,0 +1,36 @@
+# Git
+.git
+.gitignore
+
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Build output
+bin/
+tmp/
+
+# Test data
+*.test
+*.out
+
+# Local configs
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE/Editor specific
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Go vendor directory (if using)
+vendor/ 
