@@ -1,4 +1,15 @@
 services:
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+      target: production
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./web:/app
+    restart: always
+
   api:
     build:
       context: ./api

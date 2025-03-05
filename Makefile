@@ -2,6 +2,7 @@
 
 BINARY_NAME=api
 BUILD_DIR=bin
+WEB_DIR=web
 
 help: ## Display this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
@@ -18,6 +19,12 @@ dev: ## Run the API server with hot reloading
 docker-dev: ## Run the entire stack in development mode with live reloading
 	docker compose up
 
+web-hot-reload: ## Run only the web container with hot reloading
+	docker compose up web
+
+restart-web: ## Restart the web container for development
+	docker compose restart web
+
 test: ## Run tests
 	cd api && go test ./... -v
 
@@ -26,19 +33,19 @@ clean: ## Clean build artifacts
 	rm -rf api/tmp
 
 docker-build: ## Build Docker images
-	docker-compose build
+	docker compose build
 
 docker-up: ## Start Docker containers in development mode
-	docker-compose up -d
+	docker compose up -d
 
 docker-prod: ## Start Docker containers in production mode
-	docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+	docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
 docker-down: ## Stop Docker containers
-	docker-compose down
+	docker compose down
 
 docker-logs: ## View Docker logs
-	docker-compose logs -f
+	docker compose logs -f
 
 lint: ## Run linters
 	cd api && go vet ./...
@@ -49,6 +56,15 @@ swagger: ## Generate Swagger documentation
 
 tidy: ## Tidy Go modules
 	cd api && go mod tidy
+
+web-dev: ## Run the web app in development mode
+	cd $(WEB_DIR) && pnpm dev
+
+web-build: ## Build the web app
+	cd $(WEB_DIR) && pnpm build
+
+web-start: ## Start the web app
+	cd $(WEB_DIR) && pnpm start
 
 # Default target
 .DEFAULT_GOAL := help 

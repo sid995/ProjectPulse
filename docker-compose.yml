@@ -1,4 +1,31 @@
 services:
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+      target: development
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./web:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - TZ=UTC
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    networks:
+      - projectpulse-network
+    restart: unless-stopped
+    depends_on:
+      - api
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3000" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   api:
     build:
       context: ./api
