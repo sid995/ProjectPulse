@@ -4,12 +4,20 @@ services:
   web:
     build:
       context: ./web
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile.dev
     ports:
       - "3000:3000"
+    volumes:
+      - ./web:/app
+      - /app/node_modules
+      - /app/.next
     environment:
       - TZ=UTC
-      - NODE_ENV=production
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - TURBOPACK_WATCH_POLLING=1
+      - TURBOPACK_WATCH_IGNORE_PATTERN=node_modules
+      - NEXT_PUBLIC_API_URL=http://api:8080
     networks:
       - projectpulse-network
     restart: unless-stopped
@@ -20,39 +28,31 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 500M
 
   api:
     build:
       context: ./api
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile.dev
     ports:
       - "8080:8080"
+    volumes:
+      - ./api:/app
     environment:
       - TZ=UTC
-      - GO_ENV=production
+      - GO_ENV=development
     depends_on:
       - postgres
       - redis
     networks:
       - projectpulse-network
     restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 500M
 
   postgres:
     image: postgres:16-alpine
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-projectpulse}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-projectpulse}
-      POSTGRES_DB: ${POSTGRES_DB:-projectpulse}
+      POSTGRES_USER: projectpulse
+      POSTGRES_PASSWORD: projectpulse
+      POSTGRES_DB: projectpulse
       TZ: UTC
     ports:
       - "5432:5432"
@@ -66,11 +66,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 500M
 
   redis:
     image: redis:7-alpine
@@ -86,11 +81,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    deploy:
-      resources:
-        limits:
-          cpus: '0.3'
-          memory: 300M
 
 networks:
   projectpulse-network:

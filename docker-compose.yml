@@ -1,20 +1,9 @@
+version: '3.8'
+
 services:
   web:
-    build:
-      context: ./web
-      dockerfile: Dockerfile
-      target: development
     ports:
       - "3000:3000"
-    volumes:
-      - ./web:/app
-      - /app/node_modules
-      - /app/.next
-    environment:
-      - TZ=UTC
-      - NODE_ENV=development
-      - CHOKIDAR_USEPOLLING=true
-      - WATCHPACK_POLLING=true
     networks:
       - projectpulse-network
     restart: unless-stopped
@@ -27,23 +16,14 @@ services:
       retries: 5
 
   api:
-    build:
-      context: ./api
-      dockerfile: Dockerfile
-      target: development
     ports:
       - "8080:8080"
-    volumes:
-      - ./api:/app
-    environment:
-      - TZ=UTC
-      - GO_ENV=development
-    depends_on:
-      - postgres
-      - redis
     networks:
       - projectpulse-network
     restart: unless-stopped
+    depends_on:
+      - postgres
+      - redis
 
   postgres:
     image: postgres:16-alpine

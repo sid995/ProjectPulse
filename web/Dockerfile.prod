@@ -7,17 +7,6 @@ FROM base AS deps
 COPY package.json pnpm-lock.yaml ./
 RUN npm install -g pnpm && pnpm install --frozen-lockfile
 
-# Development stage for hot reloading
-FROM base AS development
-WORKDIR /app
-RUN npm install -g pnpm
-COPY --from=deps /app/node_modules ./node_modules
-ENV NODE_ENV=development
-ENV HOSTNAME "0.0.0.0"
-ENV PORT 3000
-EXPOSE 3000
-CMD ["npm", "run", "dev"]
-
 # Rebuild the source code only when needed
 FROM base AS builder
 COPY --from=deps /app/node_modules ./node_modules
