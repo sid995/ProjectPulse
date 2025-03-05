@@ -7,6 +7,9 @@ WORKDIR /app
 # Install pnpm globally
 RUN npm install -g pnpm
 
+# Add dependencies required for better file watching
+RUN apk add --no-cache libc6-compat
+
 # Copy package files (these will be overridden by volume mount, but needed for the build)
 COPY package.json pnpm-lock.yaml ./
 
@@ -17,9 +20,12 @@ RUN pnpm install
 ENV NODE_ENV=development
 ENV HOSTNAME="0.0.0.0"
 ENV PORT=3000
+ENV WATCHPACK_POLLING=true
+ENV CHOKIDAR_USEPOLLING=true
+ENV NEXT_TELEMETRY_DISABLED=1
 
 # Expose port
 EXPOSE 3000
 
-# Start development server with hot reloading
-CMD ["npm", "run", "dev"] 
+# Start development server with Turbopack
+CMD ["npm", "run", "dev", "--", "--turbo"] 
